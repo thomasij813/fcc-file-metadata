@@ -8,24 +8,12 @@ var upload = multer({
     storage: storage,
     limits: {
         fileSize: 5000000,
-    },
-    onFileSizeLimit: function(file) {
-        fileTooLarge = true;
-        res.json({
-            "uploadError": "Upload failed. File must be less than 1 MB"
-        });
-    },
-    onFileUploadStart: function(file) {
-        console.log(file.originalname + ' is starting...');
-    },
-    onFileComplete: function(file) {
-        res.json({
-            "size": file.size
-        });
     }
 }).single('file');
 
 router.get('/', function(req, res) {
+    res.locals.protocol = req.protocol;
+    res.locals.hostname = req.hostname;
     res.render('index');
 });
 
@@ -33,7 +21,8 @@ router.post('/upload', function(req, res) {
     upload(req, res, function(err) {
         if (err && err.code === 'LIMIT_FILE_SIZE') {
             res.json({
-                "message": "The size of your file cannot exceed 5 MB"
+                "message": "The size of your file cannot exceed 5 MB",
+                "error": err
             });
             return false;
         }

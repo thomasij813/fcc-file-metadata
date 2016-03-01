@@ -11,6 +11,10 @@ html
         hr
         p This application fulfills the #[a(href="http://www.freecodecamp.com/challenges/file-metadata-microservice") final API Basejump] as part of Free Code Camp's JavaScript curriculum.
         h3 Instructions
+        p Submit a file using the form below to receive a JSON object containing the size of the submitted file. The size of your file may not exceed 5 MB.
+        form(action="/upload", method="post", enctype="multipart/form-data")
+          input(type="file", name="file")
+          input(type="submit" value="File Upload")
         hr
         p.text-muted Created by #[a(href="http://thomas-johnson.net/") Thomas Johnson]
       
